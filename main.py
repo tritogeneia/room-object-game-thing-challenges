@@ -1,3 +1,5 @@
+import sys
+
 from room import Room
 from item import Item
 from character import Enemy
@@ -23,6 +25,26 @@ sylv.set_weakness("Frostmourne")
 dining_hall.set_character(sylv)
 
 current_room = kitchen
+
+def talk_to_inhabitant(inhabitant):
+	if inhabitant is not None:
+			inhabitant.talk()
+	else:
+		print("You whisper to yourself quietly, since there is no-one else to talk to. Would you like to do something else?")
+
+def fight_dat_bad_boi(inhabitant):
+	if inhabitant is not None:
+		print("What will you fight with?")
+		fight_with = input("> ")
+		if inhabitant.fight(fight_with):
+			current_room.set_character(None)
+		else:
+			print("You're dead. Bye.")
+			sys.exit(0)
+	else:
+		print("You punch the air around you, since there is no-one to fight. Would you like to do something else?")
+
+
 #print a new line, gets details, makes whatever the player types a variable and moves in that direction
 while True:
 	print("\n")
@@ -34,16 +56,6 @@ while True:
 	if command in ["north", "south", "east", "west"]:
 		current_room = current_room.move(command)
 	elif command == "talk":
-		if inhabitant is not None:
-			inhabitant.talk()
-		else:
-			print("You whisper to yourself quietly, since there is no-one else to talk to. Would you like to do something else?")
+		talk_to_inhabitant(inhabitant)
 	elif command == "fight":
-		if inhabitant is not None:
-			print("What will you fight with?")
-			fight_with = input("> ")
-			inhabitant.fight(fight_with)
-		else:
-			print("You punch the air around you, since there is no-one to fight. Would you like to do something else?")
-
-	
+		fight_dat_bad_boi(inhabitant)
