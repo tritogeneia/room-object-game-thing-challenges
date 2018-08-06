@@ -42,6 +42,7 @@ def fight_dat_bad_boi(inhabitant):
 		fight_with = input("> ")
 		if inhabitant.fight(fight_with):
 			current_room.set_character(None)
+			inhabitant.is_defeated()
 		else:
 			print("You're dead. Bye.")
 			sys.exit(0)

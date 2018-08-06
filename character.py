@@ -29,10 +29,18 @@ class Character():
 
 
 class Enemy(Character):
+    defeated = 0
+
     def __init__ (self, char_name, char_description):
         super().__init__(char_name, char_description)
         self.weakness = None
         self.is_sleeping = None
+    
+    def is_defeated(self):
+        Enemy.defeated += 1
+    
+    def get_status(self):
+        print(str(Enemy.defeated) + " enemies have been defeated")
     
     def set_weakness(self, weakness):
         self.weakness = weakness
