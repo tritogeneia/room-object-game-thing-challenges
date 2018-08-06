@@ -3,6 +3,7 @@ import sys
 from room import Room
 from item import Item
 from character import Enemy
+from character import Friend
 
 kitchen = Room("Kitchen")
 kitchen.set_description("A dank and dirty room buzzing with flies.")
@@ -21,8 +22,11 @@ ballroom.link_room(dining_hall, "east")
 sylv = Enemy("Sylvanas", "A smelly, dirty, morally grey banshee zombie lady.")
 sylv.set_conversation("BURN IT!")
 sylv.set_weakness("Frostmourne")
-
 dining_hall.set_character(sylv)
+
+dan = Friend("Dan the Mushroom Man", "A friendly purveyor of mushrooms.")
+dan.set_conversation("Hello, please buy my freshly grown mushrooms. They are grown from my own body!")
+kitchen.set_character(dan)
 
 current_room = kitchen
 
@@ -33,7 +37,7 @@ def talk_to_inhabitant(inhabitant):
 		print("You whisper to yourself quietly, since there is no-one else to talk to. Would you like to do something else?")
 
 def fight_dat_bad_boi(inhabitant):
-	if inhabitant is not None:
+	if inhabitant is not None and isinstance(inhabitant,Enemy):
 		print("What will you fight with?")
 		fight_with = input("> ")
 		if inhabitant.fight(fight_with):
@@ -41,8 +45,28 @@ def fight_dat_bad_boi(inhabitant):
 		else:
 			print("You're dead. Bye.")
 			sys.exit(0)
-	else:
+	elif inhabitant is None:
 		print("You punch the air around you, since there is no-one to fight. Would you like to do something else?")
+	elif isinstance(inhabitant, Friend):
+		print(inhabitant.name + " doesn't want to fight with you. They're friendly.")
+		return True
+
+def sleep_enemy(inhabitant):
+	if inhabitant is not None and isinstance(inhabitant,Enemy):
+			inhabitant.sleep()
+			if inhabitant.get_sleep() == True:
+				print(inhabitant.name + " is dribbling in their sleep.")
+			else:
+				print(inhabitant.name + " looks angry. There was no honour in that. They raise their weapon!")
+				fight_dat_bad_boi(inhabitant)
+	else:
+		print("Please don't put " + inhabitant.name + " to sleep. They're a friend :(")
+
+def hug_inhabitant(inhabitant):
+	if inhabitant is not None and isinstance(inhabitant,Friend):
+			inhabitant.hug()
+	else:
+		print(inhabitant.name + " looks offended. They don't want to hug you. Sorry.")
 
 
 #print a new line, gets details, makes whatever the player types a variable and moves in that direction
@@ -60,11 +84,6 @@ while True:
 	elif command == "fight":
 		fight_dat_bad_boi(inhabitant)
 	elif command == "sleep":
-		if inhabitant is not None:
-			inhabitant.sleep()
-			if inhabitant.get_sleep() == True:
-				print(inhabitant.name + " is dribbling in their sleep.")
-			else:
-				print(inhabitant.name + " looks angry. There was no honour in that. They raise their weapon!")
-				fight_dat_bad_boi(inhabitant)
-
+		sleep_enemy(inhabitant)
+	elif command == "hug":
+		hug_inhabitant(inhabitant)

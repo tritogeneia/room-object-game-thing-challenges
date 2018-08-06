@@ -23,10 +23,10 @@ class Character():
         else:
             print(self.name + " doesn't want to talk to you")
 
-    # Fight with this character
     def fight(self, combat_item):
-        print(self.name + " doesn't want to fight with you")
+        print(self.name + " doesn't want to fight with you. They're friendly.")
         return True
+
 
 class Enemy(Character):
     def __init__ (self, char_name, char_description):
@@ -59,3 +59,11 @@ class Enemy(Character):
         if roll > 50:
             self.set_sleep(True)
             self.description = self.name + " is out cold on the floor."
+
+class Friend(Character):
+    def __init__(self, char_name, char_description):
+        super().__init__(char_name, char_description)
+    
+    def hug(self):
+        print(self.name + " reaches over and gives you a big old hug!")
+    
