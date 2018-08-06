@@ -1,10 +1,12 @@
 class Item():
-	def __init__(self, item_name):
+	def __init__(self, item_name, item_description):
 		self.name = item_name
-		self.description = None
-	def get_item_description(self, item_description):
 		self.description = item_description
-	def set_item_description(self):
-		return self.description
+		self.in_room = True
+
 	def describe_item(self):
+		print("You find " + self.name + "!")
 		print(self.description)
+		print("-------------")
+	
+		
