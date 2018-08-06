@@ -28,7 +28,7 @@ current_room = kitchen
 
 def talk_to_inhabitant(inhabitant):
 	if inhabitant is not None:
-			inhabitant.talk()
+		inhabitant.talk()
 	else:
 		print("You whisper to yourself quietly, since there is no-one else to talk to. Would you like to do something else?")
 
@@ -59,3 +59,12 @@ while True:
 		talk_to_inhabitant(inhabitant)
 	elif command == "fight":
 		fight_dat_bad_boi(inhabitant)
+	elif command == "sleep":
+		if inhabitant is not None:
+			inhabitant.sleep()
+			if inhabitant.get_sleep() == True:
+				print(inhabitant.name + " is dribbling in their sleep.")
+			else:
+				print(inhabitant.name + " looks angry. There was no honour in that. They raise their weapon!")
+				fight_dat_bad_boi(inhabitant)
+

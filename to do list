@@ -1,0 +1,17 @@
+to do list: 
+challenges 1-4:
+	make text go away if won, end game if you get defeated
+	another enemy character
+	other methods like bribe (would need money array), steal, sleep
+	create friend subclass
+		hug, give gift etc
+		isinstance()
+
+
+make sure capitalising directions and fight/talk/item name etc doesn't matter
+inventory? can only use items in your inventory
+	array - if item is in array you can use it
+this can only happen if you can pick things up in a room, so do the same for items that you did characters
+	frostmourne
+	cheese
+	idk other stuff

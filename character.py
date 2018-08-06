@@ -1,5 +1,6 @@
-class Character():
+import random
 
+class Character():
     # Create a character
     def __init__(self, char_name, char_description):
         self.name = char_name
@@ -31,10 +32,14 @@ class Enemy(Character):
     def __init__ (self, char_name, char_description):
         super().__init__(char_name, char_description)
         self.weakness = None
+        self.is_sleeping = None
+    
     def set_weakness(self, weakness):
         self.weakness = weakness
+    
     def get_weakness(self):
         return self.weakness
+    
     def fight(self, combat_item):
         if combat_item == self.weakness:
             print("You fend " + self.name + " off with the " + combat_item + "!")
@@ -43,4 +48,14 @@ class Enemy(Character):
             print(self.name + " crushes you, puny adventurer.")
             return False
     
-
+    def set_sleep(self, is_sleeping):
+        self.is_sleeping = is_sleeping
+    
+    def get_sleep(self):
+        return self.is_sleeping
+    
+    def sleep(self):
+        roll = random.randint(1,100)
+        if roll > 50:
+            self.set_sleep(True)
+            self.description = self.name + " is out cold on the floor."
