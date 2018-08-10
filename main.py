@@ -24,7 +24,7 @@ ballroom.link_room(dining_hall, "east")
 
 sylv = Enemy("Sylvanas", "A smelly, dirty, morally grey banshee zombie lady.")
 sylv.set_conversation("BURN IT!")
-sylv.set_weakness("Frostmourne")
+sylv.set_weakness("frostmourne")
 dining_hall.set_character(sylv)
 
 dan = Friend("Dan the Mushroom Man", "A friendly purveyor of mushrooms.")
@@ -45,19 +45,28 @@ def talk_to_inhabitant(inhabitant):
 def fight_dat_bad_boi(inhabitant):
 	if inhabitant is not None and isinstance(inhabitant,Enemy):
 		print("What will you fight with?")
-		fight_with = input("> ")
-		if inhabitant.fight(fight_with):
-			current_room.set_character(None)
-			inhabitant.is_defeated()
-			inhabitant.get_status()
+		fight_with = get_input()
+		if check_inventory(fight_with):
+			if inhabitant.fight(fight_with):
+				current_room.set_character(None)
+				inhabitant.is_defeated()
+				inhabitant.get_status()	
+			else:
+				print("You're dead. Bye.")
+				sys.exit(0)
 		else:
-			print("You're dead. Bye.")
-			sys.exit(0)
+			print("You do not have that item.")
 	elif inhabitant is None:
 		print("You punch the air around you, since there is no-one to fight. Would you like to do something else?")
 	elif isinstance(inhabitant, Friend):
 		print(inhabitant.name + " doesn't want to fight with you. They're friendly.")
 		return True
+
+def check_inventory(item_to_check):
+	for item in backpack:
+		if item.name.lower() == item_to_check:
+			return True
+	return False
 
 def sleep_enemy(inhabitant):
 	if inhabitant is not None and isinstance(inhabitant,Enemy):
@@ -90,9 +99,10 @@ def inventory():
 		for item in backpack:
 			print("[Inventory]: " + item.name)
 
+def get_input():
+	return input("> ").lower()
 
-#print a new line, gets details, makes whatever the player types a variable and moves in that direction
-while True:
+while Enemy.count is not Enemy.defeated:
 	print("\n")
 	current_room.get_details()
 	inhabitant = current_room.get_character()
@@ -101,7 +111,7 @@ while True:
 		inhabitant.describe()
 	if item is not None and item.in_room == True:
 		item.describe_item()
-	command = input("> ")
+	command = get_input()
 	if command in ["north", "south", "east", "west"]:
 		current_room = current_room.move(command)
 	elif command == "talk":
@@ -116,3 +126,8 @@ while True:
 		take_item(item)
 	elif command == "inventory":
 		inventory()
+	else: 
+		print("That is not a valid command.")
+
+
+print("Congrats! You've killed all the enemies and have escaped the dungeon!")
